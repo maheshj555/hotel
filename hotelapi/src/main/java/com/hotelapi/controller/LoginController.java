@@ -11,13 +11,20 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:3000") // to connect please metion ur react port
 public class LoginController {
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginForm loginForm) {
-        if ("test@example.com".equalsIgnoreCase(loginForm.getEmail()) &&
-            "password".equals(loginForm.getPassword())) {
-            return ResponseEntity.ok(new LoginResponse(true, "Login successful"));
-        }
+   @PostMapping("/login")
+public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginForm loginForm) {
+    if ("test@example.com".equalsIgnoreCase(loginForm.getEmail()) &&
+        "password".equals(loginForm.getPassword())) {
 
-        return ResponseEntity.status(401).body(new LoginResponse(false, "Invalid email or password"));
+        String accessToken = "token";
+        String refreshToken = "token";
+
+        return ResponseEntity.ok(new LoginResponse(
+                true, "Login successful", accessToken, refreshToken
+        ));
     }
-}
+
+    return ResponseEntity.status(401).body(new LoginResponse(
+            false, "Invalid email or password", null, null
+    ));
+}}
