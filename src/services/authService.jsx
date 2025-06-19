@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 export const login = async (email, password) => {
@@ -7,13 +6,12 @@ export const login = async (email, password) => {
       email,
       password
     });
-    return response.data; 
+    return response.data;
   } catch (error) {
-   
     if (error.response && error.response.data) {
-      throw error.response.data; 
+      throw error.response.data;
     } else {
-      throw { message: "Network error or server is down" };
+      throw { message: "Network error" };
     }
   }
 };

@@ -1,19 +1,28 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { login } from '../services/authService';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [msg, setMsg] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMsg('');
+
     try {
       const data = await login(email, password);
-      setMsg(data.message); 
-      
+
+
+      sessionStorage.setItem('accessToken', data.accessToken);
+      sessionStorage.setItem('refreshToken', data.refreshToken);
+
+
+      navigate('/dashboard');
     } catch (err) {
+
       setMsg(err.message || 'Login failed');
     }
   };
@@ -24,21 +33,22 @@ function LoginForm() {
       <form onSubmit={handleSubmit}>
         <input
           type="email"
-          placeholder="Email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          placeholder="Email"
           required
         /><br />
         <input
           type="password"
-          placeholder="Password"
           value={password}
           onChange={e => setPassword(e.target.value)}
+          placeholder="Password"
           required
         /><br />
         <button type="submit">Login</button>
       </form>
-      <p>{msg}</p>
+
+      {msg && <p style={{ color: 'red' }}>{msg}</p>}
     </div>
   );
 }
