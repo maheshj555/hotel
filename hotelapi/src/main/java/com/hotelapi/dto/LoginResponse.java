@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AuthResponse {
-    private String accessToken;
-    private String refreshToken;
+public class LoginResponse {
+    private boolean success;
+    private String message;
 }
