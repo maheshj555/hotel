@@ -8,7 +8,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import io.swagger.v3.oas.annotations.Hidden;
 
+@Hidden
 @Configuration
 public class SecurityConfig {
 
@@ -16,7 +18,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**",
+                        "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
                 .build();
     }
